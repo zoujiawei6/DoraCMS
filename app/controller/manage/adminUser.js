@@ -308,6 +308,18 @@ class AdminUserController extends Controller {
                         select: 'userName _id enable date logo'
                     }]
                 })
+                const openMessages = await ctx.service.messageOpen.find({
+                    isPaging: '0',
+                    pageSize: 8
+                }, {
+                    populate: [{
+                        path: 'contentId',
+                        select: 'stitle _id'
+                    }]
+                }),
+                messageOpenCount = await ctx.service.messageOpen.count();
+                messages.concat(openMessages)
+                messageCount += messageOpenCount
             }
 
             let reKey = new RegExp(ctx.session.adminUserInfo.userName, 'i')

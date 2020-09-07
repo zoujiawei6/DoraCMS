@@ -12,7 +12,6 @@ class AppBootHook {
     }
 
     configWillLoad() {
-
         this.app.loader.loadFile(path.join(this.app.config.baseDir, 'app/bootstrap/index.js'));
         const ctx = this.app.createAnonymousContext();
         this.app.nunjucks.addExtension('remote', new remote(ctx));
@@ -26,7 +25,7 @@ class AppBootHook {
         this.app.nunjucks.addExtension('near_post', new near_post(ctx));
         this.app.nunjucks.addExtension('tags', new tags(ctx));
         this.app.nunjucks.addExtension('hottags', new hottags(ctx));
-        this.app.nunjucks.addExtension('ads', new ads(ctx));
+        // this.app.nunjucks.addExtension('ads', new ads(ctx));
         this.app.nunjucks.addExtension('navtree', new navtree(ctx));
         this.app.nunjucks.addExtension('childnav', new childnav(ctx));
     }
@@ -36,7 +35,6 @@ class AppBootHook {
     }
 
     async willReady() {
-
         // 请将你的应用项目中 app.beforeStart 中的代码置于此处。
     }
 

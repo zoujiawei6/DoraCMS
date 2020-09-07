@@ -21,17 +21,31 @@ const _ = require('lodash')
 
 module.exports = {
 
+    _formatPath(url) {
+        if (url) {
+            const index = url.indexOf('/')
+            if (index === 0) {
+                url = url.substring(1)
+            }
+        }
+        return url
+    },
+
     async reqJsonData(url, params = {}, method = 'get') {
         let responseData, apiData = [];
 
         let targetUrl = '';
 
+        url = this._formatPath(url)
+
         if (url.indexOf('manage/') == '0') {
-            targetUrl = this.app.config.server_path + '/' + url;
+            const path = this.app.config.server_path
+            targetUrl = path.lastIndexOf('/') === path.length - 1 ? path + url : path + '/' + url
         } else if (url.indexOf('http') == '0') {
             targetUrl = url;
         } else {
-            targetUrl = this.app.config.server_api + '/' + url
+            const path = this.app.config.server_api
+            targetUrl = path.lastIndexOf('/') === path.length - 1 ? path + url : path + '/' + url
         }
 
         if (method === 'get') {
@@ -47,7 +61,7 @@ module.exports = {
             return responseData.data.data;
 
         } else {
-            throw new Error(responseData.data.message);
+            throw new Error(responseData.data.message || responseData.data.error);
         }
 
     },

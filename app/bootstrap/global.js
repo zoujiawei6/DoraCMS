@@ -89,7 +89,7 @@ global.getContentListFields = (type = '') => {
   } else if (type == 'stage1') {
     files = '_id url title stitle sImg uAuthor date updateDate discription comments clickNum roofPlacement type videoImg state dismissReason categories isTop'
   } else {
-    files = '_id url title stitle sImg uAuthor date discription clickNum roofPlacement type appShowType imageArr videoArr duration simpleComments comments videoImg state dismissReason categories isTop'
+    files = '_id url title stitle sImg uAuthor date discription clickNum roofPlacement type appShowType imageArr videoArr duration simpleComments comments videoImg state dismissReason categories isTop header footer navigations likeNum'
   }
   // console.log('--files----', files)
   return files;

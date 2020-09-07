@@ -25,6 +25,14 @@ export function updateRegUser(data) {
   })
 }
 
+export function addUser(data) {
+  return request({
+    url: '/manage/regUser/add',
+    method: 'post',
+    data
+  })
+}
+
 export function deleteRegUser(params) {
   return request({
     url: '/manage/regUser/deleteUser',

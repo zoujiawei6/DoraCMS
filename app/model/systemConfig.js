@@ -34,7 +34,6 @@ module.exports = app => {
         }, // 站点logo
         siteDomain: {
             type: String,
-            default: 'https://www.html-js.cn'
         },
         siteDiscription: {
             type: String,

@@ -18,8 +18,9 @@ module.exports = appInfo => {
             },
         },
         // mongodb相关路径
+        // 用于数据备份，以“/”结尾
         mongodb: {
-            binPath: '/usr/local/mongodb/mongodb-linux-x86_64-ubuntu1604-4.0.0/bin/',
+            binPath: '/Users/zoujiawei6/program/mongodb-macos-x86_64-4.4.0/bin/',
             backUpPath: '/home/database/doracms/'
         },
         // 静态目录
@@ -33,8 +34,8 @@ module.exports = appInfo => {
             dir: '/home/doraData/logsdir/doracms',
         },
         // 服务地址配置
-        server_path: 'https://www.html-js.cn',
-        server_api: 'https://www.html-js.cn/api',
+        server_path: 'https://127.0.0.1:8080',
+        server_api: 'https://127.0.0.1:8080/api',
 
     }
 };

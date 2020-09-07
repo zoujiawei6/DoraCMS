@@ -24,7 +24,14 @@
         <el-form-item :label="$t('regUser.name')" prop="name">
           <el-input size="small" v-model="dialogState.formData.name"></el-input>
         </el-form-item>
-        <el-form-item label="头像" prop="logo">
+        <el-form-item prop="password" :label="$t('label.password')">
+          <el-input
+            :placeholder="$t('label.insertPassword')"
+            v-model="dialogState.formData.password"
+            show-password
+          ></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('label.headLogo')" prop="logo">
           <el-upload
             class="avatar-uploader"
             action="/api/upload/files"
@@ -51,7 +58,11 @@
           <el-input size="small" v-model="dialogState.formData.phoneNum"></el-input>
         </el-form-item>
         <el-form-item :label="$t('regUser.email')" prop="email">
-          <el-input :disabled="true" size="small" v-model="dialogState.formData.email"></el-input>
+          <el-input
+            :disabled="!dialogState.isAdd"
+            size="small"
+            v-model="dialogState.formData.email"
+          ></el-input>
         </el-form-item>
         <el-form-item :label="$t('regUser.comments')" prop="comments">
           <el-input size="small" type="textarea" v-model="dialogState.formData.comments"></el-input>
@@ -61,16 +72,24 @@
             size="medium"
             type="primary"
             @click="submitForm('ruleForm')"
-          >{{dialogState.edit ? $t('main.form_btnText_update') : $t('main.form_btnText_save')}}</el-button>
+          >{{dialogState.isAdd ? $t('main.form_btnText_save') : $t('main.form_btnText_update')}}</el-button>
         </el-form-item>
+        <!-- <el-form-item>
+          <el-button
+            size="medium"
+            type="primary"
+            @click="submitForm('ruleForm')"
+          >{{dialogState.edit ? $t('main.form_btnText_update') : $t('main.form_btnText_save')}}</el-button>
+        </el-form-item>-->
       </el-form>
     </el-dialog>
   </div>
 </template>
 <script>
-import { updateRegUser } from "@/api/regUser";
-import { checkPhoneNum, isRegularCharacter } from "@/utils/validate";
-import _ from "lodash";
+import { updateRegUser, addUser } from '@/api/regUser'
+import { checkPhoneNum, isRegularCharacter, checkEmail } from '@/utils/validate'
+// import SHA256 from 'crypto-js/sha256'
+import _ from 'lodash'
 export default {
   props: {
     dialogState: Object,
@@ -83,174 +102,239 @@ export default {
         userName: [
           {
             required: true,
-            message: this.$t("validate.inputNull", {
-              label: this.$t("regUser.userName")
+            message: this.$t('validate.inputNull', {
+              label: this.$t('regUser.userName')
             }),
-            trigger: "blur"
+            trigger: 'blur'
           },
           {
             validator: (rule, value, callback) => {
               if (!isRegularCharacter(value)) {
                 callback(
                   new Error(
-                    this.$t("validate.rangelength", { min: 2, max: 30 })
+                    this.$t('validate.rangelength', { min: 2, max: 30 })
                   )
-                );
+                )
               } else {
-                callback();
+                callback()
               }
             },
-            trigger: "blur"
+            trigger: 'blur'
           }
         ],
         name: [
           {
-            message: this.$t("validate.inputNull", {
-              label: this.$t("regUser.name")
+            message: this.$t('validate.inputNull', {
+              label: this.$t('regUser.name')
             }),
-            trigger: "blur"
+            trigger: 'blur'
           },
           {
             validator: (rule, value, callback) => {
               if (!isRegularCharacter(value)) {
                 callback(
                   new Error(
-                    this.$t("validate.rangelength", { min: 2, max: 20 })
+                    this.$t('validate.rangelength', { min: 2, max: 20 })
                   )
-                );
+                )
               } else {
-                callback();
+                callback()
               }
             },
-            trigger: "blur"
+            trigger: 'blur'
+          }
+        ],
+        password: [
+          {
+            required: true,
+            message: this.$t('validate.inputNull', {
+              label: this.$t('label.password')
+            }),
+            trigger: 'blur'
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (!isRegularCharacter(value)) {
+                callback(
+                  new Error(
+                    this.$t('validate.rangelength', { min: 8, max: 20 })
+                  )
+                )
+              } else {
+                callback()
+              }
+            },
+            trigger: 'blur'
           }
         ],
         phoneNum: [
           {
             required: true,
-            message: this.$t("validate.inputNull", {
-              label: this.$t("regUser.phoneNum")
+            message: this.$t('validate.inputNull', {
+              label: this.$t('regUser.phoneNum')
             }),
-            trigger: "blur"
+            trigger: 'blur'
           },
           {
             validator: (rule, value, callback) => {
               if (!checkPhoneNum(value)) {
                 callback(
                   new Error(
-                    this.$t("validate.inputCorrect", {
-                      label: this.$t("regUser.phoneNum")
+                    this.$t('validate.inputCorrect', {
+                      label: this.$t('regUser.phoneNum')
                     })
                   )
-                );
+                )
               } else {
-                callback();
+                callback()
               }
             },
-            trigger: "blur"
+            trigger: 'blur'
+          }
+        ],
+        email: [
+          {
+            required: true,
+            message: this.$t('validate.inputNull', {
+              label: this.$t('regUser.email')
+            }),
+            trigger: 'blur'
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (!checkEmail(value)) {
+                callback(
+                  new Error(
+                    this.$t('validate.inputCorrect', {
+                      label: this.$t('regUser.email')
+                    })
+                  )
+                )
+              } else {
+                callback()
+              }
+            },
+            trigger: 'blur'
           }
         ],
         comments: [
           {
-            message: this.$t("validate.inputNull", {
-              label: this.$t("main.comments_label")
+            message: this.$t('validate.inputNull', {
+              label: this.$t('main.comments_label')
             }),
-            trigger: "blur"
+            trigger: 'blur'
           },
           {
             min: 2,
             max: 100,
-            message: this.$t("validate.ranglengthandnormal", {
+            message: this.$t('validate.ranglengthandnormal', {
               min: 2,
               max: 100
             }),
-            trigger: "blur"
+            trigger: 'blur'
           }
         ]
       }
-    };
+    }
   },
   methods: {
     handleAvatarSuccess(res, file) {
-      let imageUrl = res.data.path;
-      this.$store.dispatch("regUser/showRegUserForm", {
+      let imageUrl = res.data.path
+      this.$store.dispatch('regUser/showRegUserForm', {
         edit: this.dialogState.edit,
+        isAdd: this.dialogState.isAdd,
         formData: Object.assign({}, this.dialogState.formData, {
           logo: imageUrl
         })
-      });
+      })
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isPNG = file.type === "image/png";
-      const isGIF = file.type === "image/gif";
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.type === 'image/jpeg'
+      const isPNG = file.type === 'image/png'
+      const isGIF = file.type === 'image/gif'
+      const isLt2M = file.size / 1024 / 1024 < 2
       if (!isJPG && !isPNG && !isGIF) {
-        this.$message.error(this.$t("validate.limitUploadImgType"));
+        this.$message.error(this.$t('validate.limitUploadImgType'))
       }
       if (!isLt2M) {
-        this.$message.error(
-          this.$t("validate.limitUploadImgSize", { size: 2 })
-        );
+        this.$message.error(this.$t('validate.limitUploadImgSize', { size: 2 }))
       }
-      return (isJPG || isPNG || isGIF) && isLt2M;
+      return (isJPG || isPNG || isGIF) && isLt2M
     },
     confirm() {
-      this.$store.dispatch("regUser/hideRegUserForm");
+      this.$store.dispatch('regUser/hideRegUserForm')
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           // console.log("---formdatas--", this);
-          let params = this.dialogState.formData;
-          // 更新(只更新基础信息)
-          if (this.dialogState.edit) {
-            let {
-              userName,
-              name,
-              logo,
-              group,
-              category,
-              enable,
-              phoneNum,
-              email,
-              comments,
-              _id
-            } = params;
-            let currentParams = {
-              _id,
-              userName,
-              logo,
-              name,
-              group,
-              category,
-              enable,
-              phoneNum,
-              email,
-              comments
-            };
+          let params = this.dialogState.formData
+          let {
+            userName,
+            name,
+            password,
+            logo,
+            group,
+            category,
+            enable,
+            phoneNum,
+            email,
+            comments,
+            _id
+          } = params
+          let currentParams = {
+            _id,
+            userName,
+            // password: SHA256(password).toString(),
+            password,
+            logo,
+            name,
+            group,
+            category,
+            enable,
+            phoneNum,
+            email,
+            comments
+          }
+          if (this.dialogState.isAdd) {
+            addUser(currentParams).then(result => {
+              if (result.status === 200) {
+                this.$store.dispatch('regUser/hideRegUserForm')
+                this.$store.dispatch('regUser/getRegUserList')
+                this.$message({
+                  message: this.$t('main.addSuccess'),
+                  type: 'success'
+                })
+              } else {
+                this.$message.error(result.message)
+              }
+            })
+          } else if (this.dialogState.edit) {
             updateRegUser(currentParams).then(result => {
               if (result.status === 200) {
-                this.$store.dispatch("regUser/hideRegUserForm");
-                this.$store.dispatch("regUser/getRegUserList");
+                this.$store.dispatch('regUser/hideRegUserForm')
+                this.$store.dispatch('regUser/getRegUserList')
                 this.$message({
-                  message: this.$t("main.updateSuccess"),
-                  type: "success"
-                });
+                  message: this.$t('main.updateSuccess'),
+                  type: 'success'
+                })
               } else {
-                this.$message.error(result.message);
+                this.$message.error(result.message)
               }
-            });
+            })
           }
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     }
   },
-  computed: {}
-};
+  computed: {},
+  updated() {
+    this.rules.password[0].required = this.dialogState.isAdd
+  }
+}
 </script>
 
 <style lang="scss">

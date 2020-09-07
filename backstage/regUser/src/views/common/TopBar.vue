@@ -4,6 +4,9 @@
       <el-button size="small" type="danger" plain round @click="branchDelete('user')">
         <svg-icon icon-class="icon_delete" />
       </el-button>
+      <el-button size="small" type="success" plain round @click="branchAdd()">
+        <i class="el-icon-plus"></i>
+      </el-button>
       <!-- TOPBARLEFT -->
     </el-col>
     <el-col :xs="12" :md="6">
@@ -11,7 +14,7 @@
         <el-input
           class="dr-searchInput"
           size="small"
-          placeholder="用户名/手机号/邮箱"
+          :placeholder="$t('label.searchKey')"
           v-model="pageInfo.searchkey"
           suffix-icon="el-icon-search"
           @keyup.enter.native="searchResult"
@@ -21,7 +24,9 @@
   </div>
 </template>
 <script>
-import { deleteRegUser } from "@/api/regUser";
+import { deleteRegUser } from '@/api/regUser'
+import { mapActions } from 'vuex'
+
 export default {
   props: {
     device: String,
@@ -32,65 +37,71 @@ export default {
   data() {
     return {
       selectUserList: [],
-      searchkey: ""
-    };
+      searchkey: ''
+    }
   },
   methods: {
+    ...mapActions('regUser', ['getRegUserList']),
     branchDelete(target) {
-      let _this = this;
+      let _this = this
       if (_.isEmpty(_this.ids)) {
         this.$message({
-          type: "info",
-          message: this.$t("validate.selectNull", {
-            label: this.$t("main.target_Item")
+          type: 'info',
+          message: this.$t('validate.selectNull', {
+            label: this.$t('main.target_Item')
           })
-        });
-        return false;
+        })
+        return false
       }
       this.$confirm(
-        this.$t("main.del_notice"),
-        this.$t("main.scr_modal_title"),
+        this.$t('main.del_notice'),
+        this.$t('main.scr_modal_title'),
         {
-          confirmButtonText: this.$t("main.confirmBtnText"),
-          cancelButtonText: this.$t("main.cancelBtnText"),
-          type: "warning"
+          confirmButtonText: this.$t('main.confirmBtnText'),
+          cancelButtonText: this.$t('main.cancelBtnText'),
+          type: 'warning'
         }
       )
         .then(() => {
-          let ids = _this.ids.join();
+          let ids = _this.ids.join()
           return deleteRegUser({
             ids
-          });
+          })
         })
         .then(result => {
           if (result.status === 200) {
-            this.$store.dispatch("regUser/getRegUserList");
+            this.$store.dispatch('regUser/getRegUserList')
             this.$message({
-              message: `${this.$t("main.scr_modal_del_succes_info")}`,
-              type: "success"
-            });
+              message: `${this.$t('main.scr_modal_del_succes_info')}`,
+              type: 'success'
+            })
           } else {
-            this.$message.error(result.message);
+            this.$message.error(result.message)
           }
         })
         .catch(err => {
           this.$message({
-            type: "info",
-            message: this.$t("main.scr_modal_del_error_info")
-          });
-        });
+            type: 'info',
+            message: this.$t('main.scr_modal_del_error_info')
+          })
+        })
+    },
+    branchAdd() {
+      this.$store.dispatch('regUser/showRegUserForm', {
+        isAdd: true,
+      })
     },
     searchResult(ev) {
-      let searchkey = this.pageInfo ? this.pageInfo.searchkey : "";
-      this.$store.dispatch("getRegUserList", {
+      let searchkey = this.pageInfo ? this.pageInfo.searchkey : ''
+      this.getRegUserList({
         searchkey,
-        isTopBar: "1"
-      });
+        isTopBar: '1'
+      })
     }
     // TOPBARLEFTOPTION
   },
   components: {}
-};
+}
 </script>
 <style lang="scss">
 </style>

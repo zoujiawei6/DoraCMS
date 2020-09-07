@@ -21,9 +21,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="group" :label="$t('regUser.group')">
-        <template slot-scope="scope">
-          <span v-if="scope.row.group == '0'">普通用户</span>
-        </template>
+        <span>{{ $t('group[0]') }}</span>
       </el-table-column>
       <el-table-column prop="enable" :label="$t('regUser.enable')" show-overflow-tooltip>
         <template slot-scope="scope">

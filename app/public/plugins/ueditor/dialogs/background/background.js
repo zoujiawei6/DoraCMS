@@ -8,6 +8,15 @@
         initColorSelector();
     };
 
+    getOpt = function (key) {
+        const config = window.UEDITOR_CONFIG
+        if (config) {
+            return config[key] || editor.getOpt(key)
+        } else {
+            return editor.getOpt(key)
+        }
+    }
+
     /* 初始化tab标签 */
     function initTabs(){
         var tabs = $G('tabHeads').children;
@@ -239,7 +248,7 @@
 
             /* 拉取数据需要使用的值 */
             this.state = 0;
-            this.listSize = editor.getOpt('imageManagerListSize');
+            this.listSize = getOpt('imageManagerListSize');
             this.listIndex = 0;
             this.listEnd = false;
 
@@ -257,7 +266,7 @@
 
             if(!_this.listEnd && !this.isLoadingData) {
                 this.isLoadingData = true;
-                var url = editor.getActionUrl(editor.getOpt('imageManagerActionName')),
+                var url = editor.getActionUrl(getOpt('imageManagerActionName')),
                     isJsonp = utils.isCrossDomainUrl(url);
                 ajax.request(url, {
                     'timeout': 100000,
@@ -297,7 +306,7 @@
         /* 添加图片到列表界面上 */
         pushData: function (list) {
             var i, item, img, icon, _this = this,
-                urlPrefix = editor.getOpt('imageManagerUrlPrefix');
+                urlPrefix = getOpt('imageManagerUrlPrefix');
             for (i = 0; i < list.length; i++) {
                 if(list[i] && list[i].url) {
                     item = document.createElement('li');

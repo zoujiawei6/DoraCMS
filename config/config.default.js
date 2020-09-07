@@ -65,9 +65,9 @@ module.exports = appInfo => {
     
 
     // cdn域名
-    origin: 'https://cdn.html-js.cn',
+    origin: 'http://127.0.0.1:8080',
     // 系统服务提供商
-    doracms_api: 'https://api.html-js.cn',
+    doracms_api: 'http://127.0.0.1:8080',
     // 模板文件目录
     temp_static_forder: process.cwd() + '/app/public/themes/',
     temp_view_forder: process.cwd() + '/app/view/',
@@ -145,9 +145,9 @@ module.exports = appInfo => {
     // doraRegUserPluginEnd
 
     // doraAdsPluginBegin
-    adsRouter: {
-      match: [ctx => ctx.path.startsWith('/manage/ads'), ctx => ctx.path.startsWith('/api/ads')],
-    },
+    // adsRouter: {
+    //   match: [ctx => ctx.path.startsWith('/manage/ads'), ctx => ctx.path.startsWith('/api/ads')],
+    // },
     // doraAdsPluginEnd
 
     // doraAnnouncePluginBegin
@@ -171,6 +171,12 @@ module.exports = appInfo => {
     // doraContentMessagePluginBegin
     contentMessageRouter: {
       match: [ctx => ctx.path.startsWith('/manage/contentMessage'), ctx => ctx.path.startsWith('/api/contentMessage')],
+    },
+    // doraContentMessagePluginEnd
+
+    // doraContentMessageOpenPluginBegin
+    contentMessageOpenRouter: {
+      match: [ctx => ctx.path.startsWith('/manage/contentMessageOpen'), ctx => ctx.path.startsWith('/api/contentMessageOpen')],
     },
     // doraContentMessagePluginEnd
 
@@ -231,9 +237,9 @@ module.exports = appInfo => {
     // doraTemplateConfigPluginEnd
 
     // doraVersionManagePluginBegin
-    versionManageRouter: {
-      match: [ctx => ctx.path.startsWith('/manage/versionManage'), ctx => ctx.path.startsWith('/api/versionManage')],
-    },
+    // versionManageRouter: {
+    //   match: [ctx => ctx.path.startsWith('/manage/versionManage'), ctx => ctx.path.startsWith('/api/versionManage')],
+    // },
     // doraVersionManagePluginEnd
 
     // doraMailTemplatePluginBegin
@@ -250,9 +256,9 @@ module.exports = appInfo => {
 
 
     // doraMiddleStagePluginBegin
-    doraMiddleStageRouter: {
-      match: [ctx => ctx.path.startsWith('/manage/singleUser')],
-    },
+    // doraMiddleStageRouter: {
+    //   match: [ctx => ctx.path.startsWith('/manage/singleUser')],
+    // },
     // doraMiddleStagePluginEnd
 
     // CONFIG_NORMALPLUGIN_END

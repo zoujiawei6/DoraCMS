@@ -52,11 +52,11 @@ exports.doraRegUser = {
 // doraRegUserPluginEnd
 
 // doraAdsPluginBegin
-exports.doraAds = {
-    enable: true,
-    package: 'egg-dora-ads',
-    path: path.join(__dirname, "../lib/plugin/egg-dora-ads")
-};
+// exports.doraAds = {
+//     enable: true,
+//     package: 'egg-dora-ads',
+//     path: path.join(__dirname, "../lib/plugin/egg-dora-ads")
+// };
 // doraAdsPluginEnd
 
 // doraAnnouncePluginBegin
@@ -90,6 +90,14 @@ exports.doraContentMessage = {
     path: path.join(__dirname, "../lib/plugin/egg-dora-contentmessage")
 };
 // doraContentMessagePluginEnd
+
+// doraContentMessageOpenPluginBegin
+exports.doraContentMessageOpen = {
+    enable: true,
+    package: 'egg-dora-contentmessage-open',
+    path: path.join(__dirname, "../lib/plugin/egg-dora-contentmessage-open")
+};
+// doraContentMessageOpenPluginEnd
 
 // doraContentTagsPluginBegin
 exports.doraContentTags = {
@@ -157,11 +165,11 @@ exports.doraVersionManage = {
 
 
 // doraMiddleStagePluginBegin
-exports.doraMiddleStage = {
-    enable: true,
-    package: 'egg-dora-middlestage',
+// exports.doraMiddleStage = {
+//     enable: true,
+//     package: 'egg-dora-middlestage',
     
-};
+// };
 // doraMiddleStagePluginEnd
 
 

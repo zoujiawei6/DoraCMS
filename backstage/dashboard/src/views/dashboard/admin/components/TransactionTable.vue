@@ -6,17 +6,17 @@
             <div class="direct-chat-msg" v-for="msg in messages" :key="msg._id">
                 <div class="direct-chat-info clearfix">
                     <span class="direct-chat-name pull-left">
-                        <a href="#">{{msg.utype =='0'?msg.author.userName:msg.adminAuthor.userName}}</a>
+                        <a href="#">{{getAuthorName(msg)}}</a>
                         {{$t('main.messageIn')}}
                         <a class="direct-chat-contentTitle" :href="'/details/'+msg.contentId._id+'.html'" target="_blank">{{msg.contentId.stitle | cutWords(20)}}</a> {{msg.utype =='0'?$t('main.messageSaid'):$t('main.messageReply')}}
-                        <a href="#">{{msg.utype =='1'?(msg.replyAuthor ? msg.replyAuthor.userName : (msg.adminReplyAuthor ? msg.adminReplyAuthor.userName : '')) : ''}}</a>
+                        <a href="#">{{getReplyAuthorName(msg)}}</a>
                     </span>
                     <span class="direct-chat-timestamp pull-right">
                         <i class="fa fa-clock-o"></i>
                         <span>{{msg.date}}</span>
                     </span>
                 </div>
-               <random-logo :user="msg.author?msg.author:msg.adminAuthor"/>
+               <random-logo :user="getAuthorLogo(msg)"/>
                 <div class="direct-chat-text" v-html="msg.content"></div>
             </div>
         </div>
@@ -39,7 +39,30 @@ export default {
   },
   components: {
     RandomLogo
-  }
+  },
+  methods: {
+    getAuthorName(message) {
+      if (message.authorName) {
+        return message.authorName
+      }
+      if (message.utype =='0') {
+        if(message.author) {
+          return message.author.userName
+        }
+      } else {
+        if (message.adminAuthor) {
+          return message.adminAuthor.userName
+        }
+      }
+      return ''
+    },
+    getReplyAuthorName(message) {
+      return message.replyAuthorName || (message.utype =='1'?(message.replyAuthor ? message.replyAuthor.userName : (message.adminReplyAuthor ? message.adminReplyAuthor.userName : '')) : '')
+    },
+    getAuthorLogo(message) {
+      return message.authorLogo || (message.author?message.author:message.adminAuthor)
+    },
+  },
 };
 </script>
 <style lang="scss">

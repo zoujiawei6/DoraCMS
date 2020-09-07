@@ -141,7 +141,7 @@
                       </el-col>
                     </el-row>
                   </el-tab-pane>
-                  <el-tab-pane label="模板市场" name="tempShop">
+                  <!-- <el-tab-pane label="模板市场" name="tempShop">
                     <el-row :gutter="20">
                       <el-col :xs="24" :md="4" v-for="item in tempShoplist.docs" :key="item._id">
                         <div class="myTemplist">
@@ -205,8 +205,8 @@
                         </div>
                       </el-col>
                     </el-row>
+                  </el-tab-pane> -->
                     <!-- <Pagination :device="device" :pageInfo="tempShoplist.pageInfo" pageType="tempShop"></Pagination> -->
-                  </el-tab-pane>
                   <el-tab-pane label="模板导入" name="tempImport">
                     <el-row>
                       <el-upload
@@ -230,7 +230,7 @@
                     <hr style="margin:20px 0;" />
                     <el-row>
                       <el-link
-                        href="http://cdn.html-js.cn/cms/templates/2.1.7/tempdemo.zip"
+                        href="/static/file/templates/2.1.7/tempdemo.zip"
                         target="_blank"
                       >
                         <i class="el-icon-s-cooperation"></i>下载示例模板

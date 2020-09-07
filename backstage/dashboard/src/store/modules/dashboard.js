@@ -79,6 +79,7 @@ const actions = {
   getNotice: ({
     commit
   }, params = {}) => {
+    return // debug. Cann't find getClientNotice
     getClientNotice(params).then((result) => {
       commit(types.CLIENT_NOTICE, result.data)
     })
@@ -87,6 +88,7 @@ const actions = {
   getVersionMaintenanceInfo: ({
     commit
   }, params = {}) => {
+    return // debug. Cann't find getVersionMaintenanceInfo
     getVersionMaintenanceInfo(params).then((result) => {
       commit(types.SYSTEM_VERSION_INFO, result.data)
     })

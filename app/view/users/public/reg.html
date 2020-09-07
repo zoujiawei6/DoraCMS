@@ -30,7 +30,7 @@
                     ms-rules="{required:true,maxlength:6,minlength:6,number:true }"
                     data-required-message="{{__('validate_inputNull',[__('label_user_imageCode')])}}"
                     data-message="{{__('validate_inputCorrect',[__('label_user_imageCode')])}}">
-                <span class="input-group-btn"><button ms-on-click="@sendMsgCode"
+                <span class="input-group-btn"><button style="width: 100px;" ms-on-click="@sendMsgCode"
                         class="btn btn-default vCodeBtn">发送验证码</button></span>
             </div>
         </div>

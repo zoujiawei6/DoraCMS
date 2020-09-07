@@ -1,0 +1,42 @@
+import Vue from 'vue'
+import VueI18n from 'vue-i18n'
+import Cookies from 'js-cookie'
+import {
+  baseEn,
+  baseJa,
+  baseZh
+} from '@root/publicMethods/baseLang'
+import elementEnLocale from 'element-ui/lib/locale/lang/en' // element-ui lang
+import elementZhLocale from 'element-ui/lib/locale/lang/zh-CN' // element-ui lang
+import elementJaLocale from 'element-ui/lib/locale/lang/ja' // element-ui lang
+import enLocale from './en'
+import zhLocale from './zh'
+import jaLocale from './ja'
+
+Vue.use(VueI18n)
+
+const i18n = new VueI18n({
+  // set locale
+  // options: en or zh
+  locale: Cookies.get('language') || 'zh',
+  // set locale messages
+  messages: {
+    en: {
+      ...baseEn,
+      ...enLocale,
+      ...elementEnLocale
+    },
+    zh: {
+      ...baseZh,
+      ...zhLocale,
+      ...elementZhLocale
+    },
+    ja: {
+      ...baseJa,
+      ...jaLocale,
+      ...elementJaLocale
+    }
+  }
+})
+
+export default i18n

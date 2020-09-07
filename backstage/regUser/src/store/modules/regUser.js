@@ -11,6 +11,7 @@ const state = {
   formState: {
     show: false,
     edit: false,
+    isAdd: false,
     formData: {
       name: '',
       userName: '',
@@ -35,6 +36,7 @@ const mutations = {
   [types.REGUSERFORMSTATE](state, formState) {
     state.formState.show = formState.show;
     state.formState.edit = formState.edit;
+    state.formState.isAdd = formState.isAdd;
 
     state.formState.formData = Object.assign({
       name: '',
@@ -43,6 +45,7 @@ const mutations = {
       email: '',
       comments: '',
       phoneNum: '',
+      password: '',
       enable: true
     }, formState.formData);
 
@@ -58,11 +61,13 @@ const actions = {
     commit
   }, params = {
     edit: false,
+    isAdd: false,
     formData: {}
   }) => {
     commit(types.REGUSERFORMSTATE, {
       show: true,
       edit: params.edit,
+      isAdd: params.isAdd,
       formData: params.formData
     })
   },
@@ -75,7 +80,7 @@ const actions = {
   },
   getRegUserList({
     commit
-  }, params = {}) {
+  }, params) {
     regUserList(params).then((result) => {
       commit(types.REGUSERLIST, result.data)
     })

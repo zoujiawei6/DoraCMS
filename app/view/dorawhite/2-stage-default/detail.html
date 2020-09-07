@@ -70,6 +70,71 @@
                         {% else %}
                         {% include "../public/msgBoard.html" %}
                         {% endif %}
+                        <hr>
+                        {% set url = "contentMessageOpen/getMessageOpens?contentId=" + post.id %}
+                        {% remote key="openMsg",api=url,pageSize="99" %}
+
+                        {% if openMsg.pageInfo.totalItems > 0 %}
+                        <div class="news_pl" style="margin-top: 0;">
+                            <h2>游客评论</h2>
+                            <div class="pl-show-list" id="pl-show-all">
+                                {% for item in openMsg.docs %}
+                                {% if item.relationMsgId === ''  %}
+                                <div class="pl-area pl-show-box">
+                                    <div class="pl-area-userpic">
+                                        <img src="{{item.authorLogo}}" />
+                                    </div>
+                                    <div class="pl-area-post">
+                                        <div class="pl-show-title">
+                                            <span>{{item.authorName}}</span>
+                                            <span class="pl-show-time pl-fr">{{item.date}}</span>
+                                        </div>
+                                        <div class="pl-show-saytext">
+                                            {{item.content | safe}}
+                                        </div>
+                                        <div class="pl-show-tools">
+                                            <a href="javascript:;">
+                                                <i class="iconfont icon-good"></i><span>{{item.praise_num}}</span>
+                                            </a>
+                                            <a class="pl-reply" href="javascript:;" title="留言功能已关闭"><i
+                                                    class="iconfont disable-point"></i></a>
+                                        </div>
+                                        <div class="pl-show-replay"></div>
+                                    </div>
+                                    <div class="pl-clr"></div>
+                                    {% for item2 in item.childMessageOpens %}
+                                    <div class="pl-area pl-box-top">
+                                        <div class="pl-area-userpic">
+                                            <img src="{{item2.authorLogo}}" />
+                                        </div>
+                                        <div class="pl-area-post">
+                                            <div class="pl-show-title">
+                                                <span>{{item2.authorName}}</span>
+                                                <span class="pl-fr">回复：</span>
+                                                <span class="pl-fr">{{item2.replyAuthorName}}</span>
+                                                <span class="pl-show-time pl-fr">{{item2.date}}</span>
+                                            </div>
+                                            <div class="pl-show-saytext">
+                                                {{item2.content | safe}}
+                                            </div>
+                                            <div class="pl-show-tools">
+                                                <a href="javascript:;">
+                                                    <i class="iconfont icon-good"></i><span>{{item2.praise_num}}</span>
+                                                </a>
+                                                <a class="pl-reply" href="javascript:;" title="留言功能已关闭"><i
+                                                        class="iconfont disable-point"></i></a>
+                                            </div>
+                                            <div class="pl-show-replay"></div>
+                                        </div>
+                                        <div class="pl-clr"></div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-md-4 right-frame">

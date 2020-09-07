@@ -4,9 +4,7 @@
  * Time: 下午16:34
  * 上传图片对话框逻辑代码,包括tab: 远程图片/上传图片/在线图片/搜索图片
  */
-
 (function () {
-
     var remoteImage,
         uploadImage,
         onlineImage,
@@ -17,6 +15,15 @@
         initAlign();
         initButtons();
     };
+
+    getOpt = function (key) {
+        const config = window.UEDITOR_CONFIG
+        if (config) {
+            return config[key] || editor.getOpt(key)
+        } else {
+            return editor.getOpt(key)
+        }
+    }
 
     /* 初始化tab标签 */
     function initTabs() {
@@ -55,16 +62,16 @@
                 remoteImage = remoteImage || new RemoteImage();
                 break;
             case 'upload':
-                setAlign(editor.getOpt('imageInsertAlign'));
+                setAlign(getOpt('imageInsertAlign'));
                 uploadImage = uploadImage || new UploadImage('queueList');
                 break;
             case 'online':
-                setAlign(editor.getOpt('imageManagerInsertAlign'));
+                setAlign(getOpt('imageManagerInsertAlign'));
                 onlineImage = onlineImage || new OnlineImage('imageList');
                 onlineImage.reset();
                 break;
             case 'search':
-                setAlign(editor.getOpt('imageManagerInsertAlign'));
+                setAlign(getOpt('imageManagerInsertAlign'));
                 searchImage = searchImage || new SearchImage();
                 break;
         }
@@ -349,15 +356,15 @@
                 })(),
             // WebUploader实例
                 uploader,
-                actionUrl = editor.getActionUrl(editor.getOpt('imageActionName')),
-                acceptExtensions = (editor.getOpt('imageAllowFiles') || []).join('').replace(/\./g, ',').replace(/^[,]/, ''),
-                imageMaxSize = editor.getOpt('imageMaxSize'),
-                imageCompressBorder = editor.getOpt('imageCompressBorder');
+                actionUrl = editor.getActionUrl(getOpt('imageActionName')),
+                acceptExtensions = (getOpt('imageAllowFiles') || []).join('').replace(/\./g, ',').replace(/^[,]/, ''),
+                imageMaxSize = getOpt('imageMaxSize'),
+                imageCompressBorder = getOpt('imageCompressBorder');
 
             if (!WebUploader.Uploader.support()) {
                 $('#filePickerReady').after($('<div>').html(lang.errorNotSupport)).hide();
                 return;
-            } else if (!editor.getOpt('imageActionName')) {
+            } else if (!getOpt('imageActionName')) {
                 $('#filePickerReady').after($('<div>').html(lang.errorLoadConfig)).hide();
                 return;
             }
@@ -374,10 +381,10 @@
                 },
                 swf: '../../third-party/webuploader/Uploader.swf',
                 server: actionUrl,
-                fileVal: editor.getOpt('imageFieldName'),
+                fileVal: getOpt('imageFieldName'),
                 duplicate: true,
                 fileSingleSizeLimit: imageMaxSize,    // 默认 2 M
-                compress: editor.getOpt('imageCompressEnable') ? {
+                compress: getOpt('imageCompressEnable') ? {
                     width: imageCompressBorder,
                     height: imageCompressBorder,
                     // 图片质量，只有type为`image/jpeg`的时候才有效。
@@ -778,7 +785,7 @@
         getInsertList: function () {
             var i, data, list = [],
                 align = getAlign(),
-                prefix = editor.getOpt('imageUrlPrefix');
+                prefix = getOpt('imageUrlPrefix');
 
             this.imageList.sort(function(x, y) {
                 if(x.index <= y.index) return -1;
@@ -851,7 +858,7 @@
 
             /* 拉取数据需要使用的值 */
             this.state = 0;
-            this.listSize = editor.getOpt('imageManagerListSize');
+            this.listSize = getOpt('imageManagerListSize');
             this.listIndex = 0;
             this.listEnd = false;
 
@@ -869,7 +876,7 @@
 
             if(!_this.listEnd && !this.isLoadingData) {
                 this.isLoadingData = true;
-                var url = editor.getActionUrl(editor.getOpt('imageManagerActionName')),
+                var url = editor.getActionUrl(getOpt('imageManagerActionName')),
                     isJsonp = utils.isCrossDomainUrl(url);
                 ajax.request(url, {
                     'timeout': 100000,
@@ -909,7 +916,7 @@
         /* 添加图片到列表界面上 */
         pushData: function (list) {
             var i, item, img, icon, _this = this,
-                urlPrefix = editor.getOpt('imageManagerUrlPrefix');
+                urlPrefix = getOpt('imageManagerUrlPrefix');
             for (i = 0; i < list.length; i++) {
                 if(list[i] && list[i].url) {
                     item = document.createElement('li');
@@ -921,8 +928,9 @@
                             _this.scale(image, image.parentNode.offsetWidth, image.parentNode.offsetHeight);
                         }
                     })(img));
+                    const src = urlPrefix + list[i].url + (list[i].url.indexOf('?') == -1 ? '?noCache=':'&noCache=') + (+new Date()).toString(36)
                     img.width = 113;
-                    img.setAttribute('src', urlPrefix + list[i].url + (list[i].url.indexOf('?') == -1 ? '?noCache=':'&noCache=') + (+new Date()).toString(36) );
+                    img.setAttribute('src', src);
                     img.setAttribute('_src', urlPrefix + list[i].url);
                     domUtils.addClass(icon, 'icon');
 

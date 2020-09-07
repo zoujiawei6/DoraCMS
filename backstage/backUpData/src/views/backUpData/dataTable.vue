@@ -46,7 +46,11 @@
 </template>
 
 <script>
-import { deletetBakDataItem, restoreCMSData } from "@/api/backUpData";
+import {
+  deletetBakDataItem,
+  restoreCMSData,
+  bakUpCMSData
+} from '@/api/backUpData'
 
 export default {
   props: {
@@ -57,79 +61,79 @@ export default {
     return {
       loading: false,
       multipleSelection: []
-    };
+    }
   },
 
   methods: {
     handleSelectionChange(val) {
-      this.multipleSelection = val;
+      this.multipleSelection = val
     },
     deleteDataItem(index, rows) {
       this.$confirm(
-        this.$t("main.del_notice"),
-        this.$t("main.scr_modal_title"),
+        this.$t('main.del_notice'),
+        this.$t('main.scr_modal_title'),
         {
-          confirmButtonText: this.$t("main.confirmBtnText"),
-          cancelButtonText: this.$t("main.cancelBtnText"),
-          type: "warning"
+          confirmButtonText: this.$t('main.confirmBtnText'),
+          cancelButtonText: this.$t('main.cancelBtnText'),
+          type: 'warning'
         }
       )
         .then(() => {
           return deletetBakDataItem({
             ids: rows[index]._id
-          });
+          })
         })
         .then(result => {
           if (result.status === 200) {
-            this.$store.dispatch("backUpData/getBakDateList", this.pageInfo);
+            this.$store.dispatch('backUpData/getBakDateList', this.pageInfo)
             this.$message({
-              message: this.$t("main.scr_modal_del_succes_info"),
-              type: "success"
-            });
+              message: this.$t('main.scr_modal_del_succes_info'),
+              type: 'success'
+            })
           } else {
-            this.$message.error(result.message);
+            this.$message.error(result.message)
           }
         })
         .catch(() => {
           this.$message({
-            type: "info",
-            message: this.$t("main.scr_modal_del_error_info")
-          });
-        });
+            type: 'info',
+            message: this.$t('main.scr_modal_del_error_info')
+          })
+        })
     },
     restoreData(index, rows) {
       this.$confirm(
-        this.$t("backUpData.askRestore"),
-        this.$t("main.scr_modal_title"),
+        this.$t('backUpData.askRestore'),
+        this.$t('main.scr_modal_title'),
         {
-          confirmButtonText: this.$t("main.confirmBtnText"),
-          cancelButtonText: this.$t("main.cancelBtnText"),
-          type: "warning"
+          confirmButtonText: this.$t('main.confirmBtnText'),
+          cancelButtonText: this.$t('main.cancelBtnText'),
+          type: 'warning'
         }
       )
         .then(() => {
           return restoreCMSData({
             id: rows[index]._id
-          });
+          })
         })
         .then(result => {
           if (result.status === 200) {
-            this.$store.dispatch("backUpData/getBakDateList");
+            this.$store.dispatch('backUpData/getBakDateList')
             this.$message({
-              message: this.$t("backUpData.restoreSuccess"),
-              type: "success"
-            });
+              message: this.$t('backUpData.restoreSuccess'),
+              type: 'success'
+            })
           } else {
-            this.$message.error(result.message);
+            this.$message.error(result.message)
           }
         })
         .catch(err => {
           this.$message({
-            type: "info",
-            message: this.$t("backUpData.restoreEr") + err
-          });
-        });
+            type: 'info',
+            message: this.$t('backUpData.restoreEr') + err
+          })
+        })
     }
   }
-};
+}
 </script>

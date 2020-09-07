@@ -20,8 +20,8 @@ const state = {
       sortPath: '',
       tags: [],
       keywords: '',
-      sImg: '/static/upload/images/defaultImg.jpg',
-      sImgType: '2',
+      sImg: '',
+      sImgType: '1',
       cover: '',
       discription: '',
       author: {},
@@ -36,7 +36,9 @@ const state = {
       commentNum: 0,
       likeNum: 0,
       dismissReason: '',
-
+      header: '',
+      footer: '',
+      navigations: [],
     }
   },
   contentList: {
@@ -93,7 +95,7 @@ const mutations = {
       tags: [],
       keywords: '',
       sImg: '',
-      sImgType: '2',
+      sImgType: '1',
       cover: '',
       discription: '',
       author: {},
@@ -106,7 +108,10 @@ const mutations = {
       comments: '',
       simpleComments: '',
       commentNum: 0,
-      likeNum: 0
+      likeNum: 0,
+      header: '',
+      footer: '',
+      navigations: [],
     }, formState.formData);
 
   },

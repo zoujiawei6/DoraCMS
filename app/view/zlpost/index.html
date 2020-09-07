@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% header adaptor="modernizr" %}
+
+    {% assets 'index.min.css ' %}
+    {% endassets %}
+
+    {% endheader %}
+    
+</head>
+
+
+<body class="is-preload">
+
+    <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+    {% block content %}{% endblock %}
+
+</body>
+
+</html>

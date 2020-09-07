@@ -21,8 +21,8 @@
  */
 
 const serverConfig = {
-    env: "development",
-    mongodbBinPath: "C:/mongodb/mongodb/bin/",
+    env: "production",
+    mongodbBinPath: "/Users/zoujiawei6/program/mongodb-macos-x86_64-4.4.0/bin",
     dbIP: "127.0.0.1",
     dbPort: "27017",
     dbName: "doracms2",

@@ -82,8 +82,8 @@ export default {
   methods: {
     inputData(index, rows) {
       let targetRow = rows[index];
+      // {\% ads name="${targetRow.name}" %}
       let adsStr = `
-      {% ads name="${targetRow.name}" %}
       {{adsPannel.slider(${targetRow.name})}}
       `;
       return adsStr;

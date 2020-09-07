@@ -4,10 +4,10 @@
         <div class="col-md-12 main-container">
             <div class="row">
                 <div class="col-md-8 left-frame">
-                    <div class="row slider-box">
+                    <!-- <div class="row slider-box">
                         <div class="col-md-10">
-                            {% ads name="recommend" %}
-                            {{adsPannel.slider(recommend)}}
+                            {\% ads name="recommend" %}
+                            {\{adsPannel.slider(recommend)}}
                         </div>
                         <div class="col-md-2 top-rec-contents">
                             {% recommend pageSize=3 %}
@@ -22,15 +22,17 @@
                             </div>
                             {% endfor %}
                         </div>
-                    </div>
+                    </div> -->
                     {% include "./public/itemListTemp.html" %}
                 </div>
                 <div class="col-md-4 right-frame">
-                    {% ads name="publishCms" %}
-                    {{adsPannel.slider(publishCms)}}
-                    {% ads name="qrCode" %}
-                    {{adsPannel.slider(qrCode)}} {% include "./public/hotNewsList.html" %} {% include "./public/reCommendList.html"
-                    %} {% include "./public/newMessageBoard.html" %}
+                    <!-- {\% ads name="publishCms" %} -->
+                    <!-- {\{adsPannel.slider(publishCms)}} -->
+                    <!-- {\% ads name="qrCode" %} -->
+                    <!-- {\{adsPannel.slider(qrCode)}} -->
+                    {% include "./public/hotNewsList.html" %}
+                    {% include "./public/reCommendList.html" %}
+                    {% include "./public/newMessageBoard.html" %}
                 </div>
             </div>
         </div>

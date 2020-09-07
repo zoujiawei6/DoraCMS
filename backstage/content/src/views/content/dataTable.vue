@@ -109,6 +109,16 @@
           >
             <svg-icon icon-class="icon_delete" />
           </el-button>
+          <el-button
+            size="mini"
+            type="success"
+            plain
+            round
+            :title="$t('label.add_message')"
+            @click="addMessage(scope.$index, dataList)"
+          >
+            <svg-icon icon-class="icon_add" />
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -128,6 +138,8 @@
 <script>
 import { deleteContent, roofContent, updateContentToTop } from "@/api/content";
 import _ from "lodash";
+import { ADD_CONTENT_MESSAGE_OPEN } from '@/api/urls'
+
 export default {
   props: {
     dataList: Array,
@@ -233,7 +245,11 @@ export default {
             message: this.$t("main.scr_modal_del_error_info")
           });
         });
-    }
+    },
+    addMessage(index, rows) {
+      const rowData = rows[index], id = rowData._id;
+      window.location.href = `${ ADD_CONTENT_MESSAGE_OPEN }/${id}`;
+    },
   },
   computed: {}
 };

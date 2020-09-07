@@ -283,8 +283,14 @@ export default {
           let specialList = result.data.docs;
           if (specialList) {
             for (const userItem of specialList) {
+              if (_this.selectUserList.findIndex(value => {
+                return value.value === userItem.id
+              }) !== -1) {
+                // 不添加已存在的数据
+                continue
+              }
               _this.selectUserList.push({
-                value: userItem._id,
+                value: userItem.id,
                 label: userItem.userName
               });
             }

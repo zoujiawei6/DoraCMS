@@ -1,0 +1,102 @@
+{% extends "./index.html" %}
+{% block content %}
+{{ post.header|safe }}
+<article>
+    {% if post.navigations.length > 0 %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light leftbox">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse">
+                <div class="navbar-nav">
+                    {% for item in post.navigations %}
+                    <a class="nav-item nav-link" href="{{item.url}}">{{item.title}}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+    <div class="leftbox">
+        <div class="infos">
+            <div class="newsview">
+                <input id="contentId" type="hidden" value="{{post._id}}" />
+                <h3 class="news_title">{{post.title}}</h3>
+                <div class="news_author">
+                    <span>{{post.uAuthor.userName}}</span>
+                    <span>{{post.date}}</span>
+                    <span>共<b>{{post.clickNum}}</b>人围观</span>
+                    <span><b>{{post.likeNum}}</b>个赞</span>
+                </div>
+                <div class="news_infos">
+                    {{post.comments | safe}}
+                </div>
+            </div>
+        </div>
+
+        {% set url = "contentMessageOpen/getMessageOpens?contentId=" + post.id %}
+        {% remote key="openMsg",api=url,pageSize="99" %}
+
+        {% if openMsg.pageInfo.totalItems > 0 %}
+        <div class="news_pl">
+            <h2>文章评论</h2>
+            <div class="pl-show-list" id="pl-show-all">
+                {% for item in openMsg.docs %}
+                {% if item.relationMsgId === ''  %}
+                <div class="pl-area pl-show-box">
+                    <div class="pl-area-userpic">
+                        <img src="{{item.authorLogo}}" />
+                    </div>
+                    <div class="pl-area-post">
+                        <div class="pl-show-title">
+                            <span>{{item.authorName}}</span>
+                            <span class="pl-show-time pl-fr">{{item.date}}</span>
+                        </div>
+                        <div class="pl-show-saytext">
+                            {{item.content | safe}}
+                        </div>
+                        <div class="pl-show-tools">
+                            <a href="javascript:;">
+                                <i class="iconfont icon-good"></i><span>{{item.praise_num}}</span>
+                            </a>
+                            <a class="pl-reply" href="javascript:;" title="留言功能已关闭"><i
+                                    class="iconfont disable-point"></i></a>
+                        </div>
+                        <div class="pl-show-replay"></div>
+                    </div>
+                    <div class="pl-clr"></div>
+                    {% for item2 in item.childMessageOpens %}
+                    <div class="pl-area pl-box-top">
+                        <div class="pl-area-userpic">
+                            <img src="{{item2.authorLogo}}" />
+                        </div>
+                        <div class="pl-area-post">
+                            <div class="pl-show-title">
+                                <span>{{item2.authorName}}</span>
+                                <span class="pl-fr">回复：</span>
+                                <span class="pl-fr">{{item2.replyAuthorName}}</span>
+                                <span class="pl-show-time pl-fr">{{item2.date}}</span>
+                            </div>
+                            <div class="pl-show-saytext">
+                                {{item2.content | safe}}
+                            </div>
+                            <div class="pl-show-tools">
+                                <a href="javascript:;">
+                                    <i class="iconfont icon-good"></i><span>{{item2.praise_num}}</span>
+                                </a>
+                                <a class="pl-reply" href="javascript:;" title="留言功能已关闭"><i
+                                        class="iconfont disable-point"></i></a>
+                            </div>
+                            <div class="pl-show-replay"></div>
+                        </div>
+                        <div class="pl-clr"></div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</article>
+{{ post.footer|safe }}
+{% endblock %}

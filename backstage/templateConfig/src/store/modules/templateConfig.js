@@ -89,6 +89,7 @@ const actions = {
   getTempsFromShop({
     commit
   }, params = {}) {
+    return // 此功能已未启用
     getTemplatelistfromShop(params).then((result) => {
       commit(types.DORACMSTEMPLATE_LIST, result.data)
     })
