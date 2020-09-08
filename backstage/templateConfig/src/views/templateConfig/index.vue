@@ -230,7 +230,7 @@
                     <hr style="margin:20px 0;" />
                     <el-row>
                       <el-link
-                        href="/static/file/templates/2.1.7/tempdemo.zip"
+                        href="/static/file/templates/2.1.8/tempdemo.zip"
                         target="_blank"
                       >
                         <i class="el-icon-s-cooperation"></i>下载示例模板

@@ -1,6 +1,6 @@
 {
   "name": "doracms2",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "",
   "dependencies": {
     "@cdxoo/mongodb-restore": "^1.0.0",
