@@ -41,7 +41,7 @@ module.exports = appInfo => {
         // DEV_CONFIG_MODULES_END
         mongoose: {
             client: {
-        url: "mongodb://127.0.0.1:27017/doracms3",
+        url: "mongodb://127.0.0.1:27017/doracms2",
                 options: {
                     useCreateIndex: true,
                     useUnifiedTopology: true,
@@ -52,7 +52,7 @@ module.exports = appInfo => {
         // mongodb相关路径
         // 用于数据备份，以“/”结尾
         mongodb: {
-        binPath: "/Users/zoujiawei6/program/mongodb-macos-x86_64-4.4.0/bin/",
+        binPath: "/Users/zoujiawei6/program/mongodb-macos-x86_64-4.4.0/bin",
             backUpPath: path.join(appInfo.baseDir, 'databak/')
         },
         static: {
